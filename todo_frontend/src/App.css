@@ -1,63 +1,183 @@
-/* CSS Variables for Theme Management */
+/* Ocean Professional Theme - CSS Variables and UI Scaffolding
+   Light mode tokens (default) and dark mode compatibility via [data-theme="dark"].
+   Primary: #2563EB, Secondary/Success: #F59E0B, Error: #EF4444,
+   Text: #111827, Background: #f9fafb, Surface: #ffffff
+*/
+
+/* Base tokens */
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
+  /* Core palette */
+  --color-primary: #2563EB;
+  --color-primary-600: #1d4ed8;
+  --color-secondary: #F59E0B; /* also used for success accents */
+  --color-error: #EF4444;
+
+  /* Neutrals */
+  --text-primary: #111827;
+  --text-muted: #4b5563;
+  --bg-primary: #f9fafb;   /* page background */
+  --bg-secondary: #ffffff; /* card/surface */
+  --border-color: #e5e7eb;
+
+  /* Buttons */
+  --button-bg: var(--color-primary);
+  --button-bg-hover: var(--color-primary-600);
   --button-text: #ffffff;
+
+  /* Effects */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 6px 14px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.12);
+
+  /* Focus */
+  --focus-outline: 2px solid rgba(37, 99, 235, 0.7);
 }
 
+/* Dark mode overrides - keep variable names to preserve toggle behavior */
 [data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
+  --text-primary: #f9fafb;
+  --text-muted: #d1d5db;
+  --bg-primary: #0b1220;     /* deep ocean */
+  --bg-secondary: #111827;   /* surface */
+  --border-color: #1f2937;
+
+  --button-bg: #1d4ed8;      /* slightly darker primary */
+  --button-bg-hover: #1e40af;
+  --button-text: #e5e7eb;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 6px 14px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.55);
 }
 
+/* App wrapper and centered single-column layout */
 .App {
-  text-align: center;
-  background-color: var(--bg-primary);
+  min-height: 100vh;
+  background: var(--bg-primary);
   color: var(--text-primary);
-  min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 220ms ease, color 220ms ease;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
+/* Gradient header: from blue-500/10 to gray-50 (light), adjusted for dark */
 .App-header {
-  background-color: var(--bg-secondary);
+  position: relative;
   min-height: 100vh;
+  padding: 48px 16px;
   display: flex;
-  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  text-align: left;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(37, 99, 235, 0.10) 0%,
+      rgba(243, 244, 246, 1) 40%,
+      var(--bg-primary) 100%
+    );
+  transition: background 240ms ease;
+}
+[data-theme="dark"] .App-header {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(37, 99, 235, 0.12) 0%,
+      rgba(17, 24, 39, 0.85) 35%,
+      var(--bg-primary) 100%
+    );
+}
+
+/* Layout container */
+.container {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* Card/surface */
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  box-shadow: var(--shadow-md);
+  padding: 16px;
+  transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, transform 120ms ease;
+}
+.card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Typography */
+.title {
+  margin: 0;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  font-weight: 700;
+}
+.subtitle {
+  margin: 6px 0 0 0;
+  color: var(--text-muted);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: var(--button-bg);
+  color: var(--button-text);
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background-color 180ms ease, box-shadow 180ms ease, transform 120ms ease, border-color 180ms ease;
+}
+.btn:hover {
+  background: var(--button-bg-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.btn:active {
+  transform: translateY(0);
+}
+.btn.secondary {
+  background: var(--bg-secondary);
   color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
+  border: 1px solid var(--border-color);
+}
+.btn.tertiary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
 }
 
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
+/* Inputs */
+.input,
+input[type="text"],
+input[type="search"] {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  outline: none;
+  font-size: 1rem;
+  transition: box-shadow 160ms ease, border-color 160ms ease, background-color 160ms ease;
+}
+.input:focus,
+input[type="text"]:focus,
+input[type="search"]:focus,
+.btn:focus,
+.theme-toggle:focus {
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+  border-color: var(--color-primary);
 }
 
+/* Theme toggle button */
 .theme-toggle {
   position: absolute;
   top: 20px;
@@ -65,40 +185,57 @@
   background-color: var(--button-bg);
   color: var(--button-text);
   border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
+  border-radius: 10px;
+  padding: 10px 14px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
 }
-
 .theme-toggle:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+  box-shadow: var(--shadow-md);
+  background-color: var(--button-bg-hover);
 }
-
 .theme-toggle:active {
   transform: translateY(0);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Utility: visually hidden (screen-reader only) */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 1px, 1px) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
-/* Responsive design for mobile */
+/* Link style aligned to theme secondary color */
+.App-link {
+  color: var(--color-secondary);
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+.App-link:hover {
+  opacity: 0.9;
+}
+
+/* Keyframes (kept if later needed) */
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive tweaks */
 @media (max-width: 768px) {
   .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
+    top: 12px;
+    right: 12px;
+    padding: 8px 12px;
     font-size: 12px;
   }
 }
